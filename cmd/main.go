@@ -24,7 +24,7 @@ func main() {
 		log.Fatalf("Could not initialize server: %+v\n", err)
 	}
 
-	http.HandleFunc("/", middlewares.WithLogging(server.ServeHTTP))
+	http.HandleFunc("/", middlewares.WithLogging(server.Serve))
 
 	log.Printf("Listening on :%s...", cfg.Port)
 	err = http.ListenAndServe(fmt.Sprintf(":%s", cfg.Port), nil)

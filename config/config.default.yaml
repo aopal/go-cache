@@ -3,4 +3,3 @@ origins:
 - "http://localhost:8000"
 cache:
   sort_query_string: true
-# fetch_worker_count: 8

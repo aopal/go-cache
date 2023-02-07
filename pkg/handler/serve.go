@@ -10,7 +10,7 @@ import (
 	"github.com/aopal/go-cache/pkg/fetch"
 )
 
-func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Serve(w http.ResponseWriter, r *http.Request) {
 	h.normalizeRequest(r)
 	cacheKey := h.getCacheKey(r)
 
@@ -33,7 +33,6 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Printf("error from fetching: v", err)
 	}
 
-	// response.Header.Add("X-Cache-Status", "MISS")
 	w.Header().Add("X-Cache-Status", "MISS")
 	h.normalizeResponse(response)
 	_, err = h.streamResponse(response, w)
