@@ -11,7 +11,6 @@ import (
 type Fetcher struct {
 	cfg    *config.Config
 	client *http.Client
-	// inProgress map[string]*Response
 	inProgress sync.Map
 }
 
@@ -21,10 +20,6 @@ func New(cfg *config.Config) *Fetcher {
 		client: http.DefaultClient,
 	}
 }
-
-// func (f *Fetcher) FetchOld(req *http.Request) (*http.Response, error) {
-// 	return f.client.Do(f.buildBackendRequest(req))
-// }
 
 func (f *Fetcher) Fetch(req *http.Request, cacheKey string) (*Response, error) {
 	resp := NewResponse()

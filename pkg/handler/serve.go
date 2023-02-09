@@ -39,8 +39,11 @@ func (h *Handler) Serve(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("error from streaming response: %+v", err)
 	}
-	h.cache.Insert(cacheKey, r, response)
-	h.fetcher.RemoveInProgress(cacheKey)
+
+	go func() {
+		h.cache.Insert(cacheKey, r, response)
+		h.fetcher.RemoveInProgress(cacheKey)
+	}()
 }
 
 func (h *Handler) streamResponse(resp *fetch.Response, w http.ResponseWriter) (int64, error) {
@@ -70,12 +73,12 @@ func (h *Handler) normalizeRequest(r *http.Request) {
 	}
 }
 
-// do things like stripping shopify-edge-cache-control header
-func (h *Handler) normalizeResponse(r *fetch.Response) {
-
+func (h *Handler) normalizeResponse(resp *fetch.Response) {
+	// resp.Header.Del("Cache-Tag")
+	// resp.Header.Del("Surrogate-Key")
 }
 
 // generate a cache key from the request,
-func (h *Handler) getCacheKey(r *http.Request) string {
-	return r.URL.String()
+func (h *Handler) getCacheKey(req *http.Request) string {
+	return req.URL.String()
 }

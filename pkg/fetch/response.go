@@ -12,10 +12,7 @@ type Response struct {
 	Header http.Header
 	Body   []byte
 
-	// beReq  *http.Request
-	// client *http.Client
 	wg sync.WaitGroup
-	// sync.Mutex
 }
 
 func NewResponse() *Response {

@@ -25,6 +25,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", middlewares.WithLogging(server.Serve))
+	http.HandleFunc("/api/purge/tag", middlewares.WithLogging(server.PurgeByTag))
 
 	log.Printf("Listening on :%s...", cfg.Port)
 	err = http.ListenAndServe(fmt.Sprintf(":%s", cfg.Port), nil)
